@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_light_primary"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45sp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/logo"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/user_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_below="@id/logo"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/hint_user_field"
+        android:textAlignment="center"
+        android:backgroundTint="@color/my_light_primary"
+        android:layout_marginTop="100sp"
+        android:layout_marginHorizontal="50sp"
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/textColorHint" />
+
+    <Button
+        android:id="@+id/next_page_btn"
+        android:layout_width="match_parent"
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_field"
+        android:layout_marginTop="20sp"
+        android:layout_marginHorizontal="100sp"
+        android:backgroundTint="@color/btnColor"
+        android:text="@string/nextPageButton"
+        />
+
+    <TextView
+        android:id="@+id/result_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45sp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textAlignment="center"
+        android:textColor="@color/textColorHint"
+        android:textSize="24sp"
+        android:layout_below="@+id/next_page_btn"/>
+
+</RelativeLayout>

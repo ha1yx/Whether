@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Shmether</string>
+    <string name="logo">Погода в вашем городе</string>
+    <string name="hint_user_field">Введите город</string>
+    <string name="mainButton">Узнать погоду</string>
+    <string name="no_user_input">Введите текст</string>
+    <string name="nextPageButton">Перейти к прогнозу</string>
+    <string name="left"> &lt; </string>
+    <string name="right"> &gt; </string>
+</resources>
