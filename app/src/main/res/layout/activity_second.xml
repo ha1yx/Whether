@@ -12,27 +12,36 @@
         android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45sp"
+        android:layout_marginTop="65sp"
         android:fontFamily="@font/montserrat_medium"
         android:textAlignment="center"
         android:textColor="@color/textColor"
         android:textSize="30sp" />
 
+    <ImageView
+        android:id="@+id/weatherIcon"
+        android:layout_below="@+id/city"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/rain" />
+
     <Button
         android:id="@+id/left_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/city"
+        android:layout_below="@+id/weatherIcon"
         android:layout_marginTop="18sp"
-        android:backgroundTint="@color/btnColor"
+        android:backgroundTint="@color/whiteT"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/left" />
+        android:text="@string/left"
+        />
 
     <TextView
         android:id="@+id/day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/city"
+        android:layout_below="@+id/weatherIcon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25sp"
         android:fontFamily="@font/montserrat_medium"
@@ -45,10 +54,10 @@
         android:layout_width="wrap_content"
         android:fontFamily="@font/montserrat_medium"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/city"
+        android:layout_below="@+id/weatherIcon"
         android:layout_marginTop="18sp"
-        android:layout_marginLeft="320dp"
-        android:backgroundTint="@color/btnColor"
+        android:layout_alignParentRight="true"
+        android:backgroundTint="@color/whiteT"
         android:text="@string/right"
         />
 
@@ -61,6 +70,7 @@
         android:textAlignment="center"
         android:textColor="@color/textColorHint"
         android:textSize="24sp"
-        android:layout_below="@+id/city"/>
+        android:layout_below="@+id/weatherIcon"/>
+
 
 </RelativeLayout>

@@ -2,8 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="whiteT">#19FFFFFF</color>
     <color name="my_light_primary">#1D1D1D</color>
     <color name="btnColor">#646464</color>
     <color name="textColor">#FFFFFFFF</color>
-    <color name="textColorHint">#ccc</color>
+    <color name="textColorHint">#CCC</color>
+    <color name="clearBg">#827FED</color>
+    <color name="rainBg">#69698E</color>
+    <color name="cloudBg">#8484B6</color>
 </resources>
