@@ -398,4 +398,3 @@ public class SecondActivity extends AppCompatActivity {
         executorService.shutdown();
     }
 }
-
