@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -8,40 +8,47 @@
     android:background="@color/my_light_primary"
     tools:context=".SecondActivity">
 
+    <!-- Название города -->
     <TextView
         android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65sp"
+        android:layout_marginTop="60sp"
+
         android:fontFamily="@font/montserrat_medium"
         android:textAlignment="center"
         android:textColor="@color/textColor"
         android:textSize="30sp" />
 
-    <ImageView
-        android:id="@+id/weatherIcon"
-        android:layout_below="@+id/city"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/rain" />
-
+    <!-- Кнопка влево (предыдущий день) -->
     <Button
         android:id="@+id/left_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/weatherIcon"
+        android:layout_below="@+id/city"
         android:layout_marginTop="18sp"
         android:backgroundTint="@color/whiteT"
         android:fontFamily="@font/montserrat_medium"
-        android:text="@string/left"
-        />
+        android:text="@string/left"/>
 
+    <!-- Кнопка вправо (следующий день) -->
+    <Button
+        android:id="@+id/right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/city"
+        android:layout_marginTop="18sp"
+        android:backgroundTint="@color/whiteT"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/right"/>
+
+    <!-- Текст с датой -->
     <TextView
         android:id="@+id/day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/weatherIcon"
+        android:layout_below="@+id/city"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25sp"
         android:fontFamily="@font/montserrat_medium"
@@ -49,28 +56,412 @@
         android:textColor="@color/textColorHint"
         android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/right_btn"
-        android:layout_width="wrap_content"
-        android:fontFamily="@font/montserrat_medium"
+
+    <LinearLayout
+        android:id="@+id/containerToday"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/weatherIcon"
-        android:layout_marginTop="18sp"
-        android:layout_alignParentRight="true"
-        android:backgroundTint="@color/whiteT"
-        android:text="@string/right"
-        />
+        android:layout_below="@+id/day"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:layout_marginTop="360sp"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/degreesInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="36sp" />
+
+            <!-- Большая иконка погоды на сегодня -->
+            <ImageView
+                android:id="@+id/todayWeatherIcon"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:src="@drawable/clear" />
+        </LinearLayout>
+
+        <!-- Текст с информацией о погоде на сегодня -->
+        <TextView
+            android:id="@+id/todayWeatherInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:textAlignment="textStart"
+            android:textColor="@color/textColorHint"
+            android:textSize="24sp"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/containerFuture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/day"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:layout_marginTop="15sp">
+
+        <LinearLayout
+            android:id="@+id/containerFuture1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <!-- Утро -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="24sp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/weatherIconMor"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:src="@drawable/rain"/>
+
+                <TextView
+                    android:id="@+id/forecast_infoMor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textAlignment="center"
+                    android:textColor="@color/textColorHint"
+                    android:textSize="18sp"
+                    android:text="" />
+            </LinearLayout>
+
+            <!-- День -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="24sp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/weatherIconDay"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:src="@drawable/rain" />
+
+                <TextView
+                    android:id="@+id/forecast_infoDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textAlignment="center"
+                    android:textColor="@color/textColorHint"
+                    android:textSize="18sp"
+                    android:text="" />
+            </LinearLayout>
+
+            <!-- Вечер -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="24sp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/weatherIconEve"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:src="@drawable/rain"/>
+
+                <TextView
+                    android:id="@+id/forecast_infoEve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textAlignment="center"
+                    android:textColor="@color/textColorHint"
+                    android:textSize="18sp"
+                    android:text="" />
+            </LinearLayout>
+
+            <!-- Ночь -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/weatherIconNig"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:src="@drawable/rain"/>
+
+                <TextView
+                    android:id="@+id/forecast_infoNig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textAlignment="center"
+                    android:textColor="@color/textColorHint"
+                    android:textSize="18sp"
+                    android:text="" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@color/textColorHint"
+            android:alpha="0.2"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
+            android:layout_marginHorizontal="55sp"/>
+
+        <TextView
+            android:id="@+id/forecast_feels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/textColorHint"
+            android:alpha="0.5"
+            android:layout_marginLeft="55sp"
+            android:textSize="18sp"
+            android:text="@string/forecastFeel"
+            android:layout_marginBottom="10sp"/>
+
+        <LinearLayout
+            android:id="@+id/containerFuture2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:alpha="0.8">
+            <!-- Утро -->
+            <TextView
+                android:id="@+id/forecast_feelsMor"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="10℃" />
+
+
+            <!-- День -->
+            <TextView
+                android:id="@+id/forecast_feelsDay"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="10℃" />
+
+            <!-- Вечер -->
+            <TextView
+                android:id="@+id/forecast_feelsEve"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="10℃" />
+
+            <!-- Ночь -->
+            <TextView
+                android:id="@+id/forecast_feelsNig"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="10℃" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@color/textColorHint"
+            android:alpha="0.2"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
+            android:layout_marginHorizontal="55sp"/>
+
+        <TextView
+            android:id="@+id/forecast_blow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/textColorHint"
+            android:alpha="0.5"
+            android:layout_marginLeft="55sp"
+            android:textSize="18sp"
+            android:text="@string/forecastBlow"
+            android:layout_marginBottom="10sp"/>
+
+        <LinearLayout
+            android:id="@+id/containerFuture3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <!-- Утро -->
+            <TextView
+                android:id="@+id/forecast_blowMor"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="5" />
+
+
+            <!-- День -->
+            <TextView
+                android:id="@+id/forecast_blowDay"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="5" />
+
+            <!-- Вечер -->
+            <TextView
+                android:id="@+id/forecast_blowEve"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+
+                android:text="5" />
+
+            <!-- Ночь -->
+            <TextView
+                android:id="@+id/forecast_blowNig"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="5" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@color/textColorHint"
+            android:alpha="0.2"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
+            android:layout_marginHorizontal="55sp"/>
+
+        <TextView
+            android:id="@+id/forecast_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/textColorHint"
+            android:alpha="0.5"
+            android:layout_marginLeft="55sp"
+            android:textSize="18sp"
+            android:text="@string/forecastPress"
+            android:layout_marginBottom="10sp"/>
+
+        <LinearLayout
+            android:id="@+id/containerFuture4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <!-- Утро -->
+            <TextView
+                android:id="@+id/forecast_pressMor"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="10" />
+
+
+            <!-- День -->
+            <TextView
+                android:id="@+id/forecast_pressDay"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="10" />
+
+            <!-- Вечер -->
+            <TextView
+                android:id="@+id/forecast_pressEve"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+
+                android:text="10" />
+
+            <!-- Ночь -->
+            <TextView
+                android:id="@+id/forecast_pressNig"
+                android:layout_width="85sp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/textColorHint"
+                android:textSize="18sp"
+                android:text="10" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@color/textColorHint"
+            android:alpha="0.2"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
+            android:layout_marginHorizontal="55sp"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/forecast_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80sp"
+        android:layout_below="@+id/containerFuture"
+        android:layout_marginTop="25sp"
         android:fontFamily="@font/montserrat_medium"
         android:textAlignment="center"
         android:textColor="@color/textColorHint"
-        android:textSize="24sp"
-        android:layout_below="@+id/weatherIcon"/>
-
+        android:textSize="24sp" />
 
 </RelativeLayout>
+
