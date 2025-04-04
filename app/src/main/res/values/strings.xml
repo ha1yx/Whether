@@ -7,4 +7,7 @@
     <string name="nextPageButton">Перейти к прогнозу</string>
     <string name="left"> &lt; </string>
     <string name="right"> &gt; </string>
+    <string name="forecastFeel">Ощущается как</string>
+    <string name="forecastBlow">Ветер, м/с</string>
+    <string name="forecastPress">Давление, мм.рт.ст</string>
 </resources>
