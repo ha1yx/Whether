@@ -38,6 +38,9 @@ public class SecondActivity extends AppCompatActivity {
 
     private ImageView weatherIconMor, weatherIconDay, weatherIconEve, weatherIconNig;
     private TextView forecast_info, forecast_infoMor, forecast_infoDay, forecast_infoEve, forecast_infoNig;
+    private TextView forecast_feelsMor, forecast_feelsDay, forecast_feelsEve, forecast_feelsNig;
+    private TextView forecast_blowMor, forecast_blowDay, forecast_blowEve, forecast_blowNig;
+    private TextView forecast_pressMor, forecast_pressDay, forecast_pressEve, forecast_pressNig;
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
     private final String key = "7f75ba93d702ac5eaa4d315f8d1bba91";
@@ -72,6 +75,21 @@ public class SecondActivity extends AppCompatActivity {
         forecast_infoNig = findViewById(R.id.forecast_infoNig);
         forecast_info = findViewById(R.id.forecast_info);
 
+        forecast_feelsMor = findViewById(R.id.forecast_feelsMor);
+        forecast_feelsDay = findViewById(R.id.forecast_feelsDay);
+        forecast_feelsEve = findViewById(R.id.forecast_feelsEve);
+        forecast_feelsNig = findViewById(R.id.forecast_feelsNig);
+
+        forecast_blowMor = findViewById(R.id.forecast_blowMor);
+        forecast_blowDay = findViewById(R.id.forecast_blowDay);
+        forecast_blowEve = findViewById(R.id.forecast_blowEve);
+        forecast_blowNig = findViewById(R.id.forecast_blowNig);
+
+        forecast_pressMor = findViewById(R.id.forecast_pressMor);
+        forecast_pressDay = findViewById(R.id.forecast_pressDay);
+        forecast_pressEve = findViewById(R.id.forecast_pressEve);
+        forecast_pressNig = findViewById(R.id.forecast_pressNig);
+
         countDay = 0;
 
         if (getIntent().hasExtra("USER_INPUT")) {
@@ -104,19 +122,19 @@ public class SecondActivity extends AppCompatActivity {
     private void updateUI() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, countDay);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMMM");
         formattedDate = sdf.format(calendar.getTime());
         day.setText(formattedDate);
 
         if (countDay == 0) {
-            // Для сегодняшнего дня показываем и текущую погоду, и прогноз по частям дня
+
             containerToday.setVisibility(View.VISIBLE);
             containerFuture.setVisibility(View.VISIBLE);
             forecast_info.setVisibility(View.GONE);
             loadTodayWeather();
             loadFutureWeather(0);
         } else {
-            // Для будущих дней показываем только прогноз и общее текстовое поле
+
             containerToday.setVisibility(View.GONE);
             containerFuture.setVisibility(View.VISIBLE);
             forecast_info.setVisibility(View.VISIBLE);
@@ -143,7 +161,6 @@ public class SecondActivity extends AppCompatActivity {
                         String description = weatherObj.getString("description");
                         description = description.substring(0, 1).toUpperCase() + description.substring(1);
 
-                        // Получаем объект "wind" из jsonObject (на одном уровне с "main")
                         JSONObject windObj = jsonObject.getJSONObject("wind");
                         double windSpeed = windObj.getDouble("speed");
                         int rounndWind = (int) Math.round(windSpeed);
@@ -177,7 +194,7 @@ public class SecondActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void loadFutureWeather(int dayOffset) {
         String forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName +
                 "&appid=" + key + "&units=metric&lang=ru";
@@ -200,7 +217,6 @@ public class SecondActivity extends AppCompatActivity {
                         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
                         String targetDate = sdfDate.format(calendar.getTime());
 
-                        // Перебираем прогнозы и выбираем записи по времени
                         for (int i = 0; i < list.length(); i++) {
                             JSONObject forecast = list.getJSONObject(i);
                             String dtTxt = forecast.getString("dt_txt");
@@ -217,24 +233,33 @@ public class SecondActivity extends AppCompatActivity {
                             }
                         }
 
-                        // Обработка утреннего прогноза
                         if (forecastMor != null) {
                             JSONObject mainObj = forecastMor.getJSONObject("main");
                             JSONArray weatherArray = forecastMor.getJSONArray("weather");
                             JSONObject weatherObj = weatherArray.getJSONObject(0);
                             int temp = mainObj.getInt("temp");
+                            int feels_like = mainObj.getInt("feels_like");
                             // Показываем блок для утра
                             forecast_infoMor.setVisibility(View.VISIBLE);
                             weatherIconMor.setVisibility(View.VISIBLE);
                             forecast_infoMor.setText("Утро\n" + temp + "℃");
                             weatherIconMor.setImageResource(getWeatherIconResource(weatherObj.getString("description")));
+
+                            JSONObject windObj = forecastMor.getJSONObject("wind");
+                            double windSpeed = windObj.getDouble("speed");
+                            int rounndWind = (int) Math.round(windSpeed);
+                            double pressure = mainObj.getInt("pressure") * 0.75;
+                            int roundPressure = (int) Math.round(pressure);
+
+                            forecast_feelsMor.setText(String.format("%d℃", feels_like));
+                            forecast_blowMor.setText(String.valueOf(rounndWind));
+                            forecast_pressMor.setText(String.valueOf(roundPressure));
                         } else {
                             // Если данных нет, скрываем блок
-                            forecast_infoMor.setVisibility(View.GONE);
-                            weatherIconMor.setVisibility(View.GONE);
+                            forecast_infoMor.setVisibility(View.INVISIBLE);
+                            weatherIconMor.setVisibility(View.INVISIBLE);
                         }
 
-                        // Обработка дневного прогноза
                         if (forecastDay != null) {
                             JSONObject mainObj = forecastDay.getJSONObject("main");
                             JSONArray weatherArray = forecastDay.getJSONArray("weather");
@@ -245,29 +270,33 @@ public class SecondActivity extends AppCompatActivity {
                             forecast_infoDay.setText("День\n" + temp + "℃");
                             weatherIconDay.setImageResource(getWeatherIconResource(weatherObj.getString("description")));
 
-                            // Если это не сегодняшний день (dayOffset != 0), выводим общую информацию в forecast_info
-                            if (dayOffset != 0) {
-                                JSONObject windObj = forecastDay.getJSONObject("wind");
-                                double windSpeed = windObj.getDouble("speed");
-                                int rounndWind = (int) Math.round(windSpeed);
-                                double pressure = mainObj.getInt("pressure") * 0.75;
-                                int roundPressure = (int) Math.round(pressure);
+                            JSONObject windObj = forecastDay.getJSONObject("wind");
+                            double windSpeed = windObj.getDouble("speed");
+                            int rounndWind = (int) Math.round(windSpeed);
+                            double pressure = mainObj.getInt("pressure") * 0.75;
+                            int roundPressure = (int) Math.round(pressure);
+                            int feels_like = mainObj.getInt("feels_like");
 
+                            forecast_feelsDay.setText(String.format("%d℃", feels_like));
+                            forecast_blowDay.setText(String.valueOf(rounndWind));
+                            forecast_pressDay.setText(String.valueOf(roundPressure));
+
+                            if (dayOffset != 0) {
                                 forecast_info.setVisibility(View.VISIBLE);
-                                forecast_info.setText("Днем будет " + weatherObj.getString("description") +
+                                forecast_info.setText("Днем: " + weatherObj.getString("description") +
                                         "\nСкорость ветра " + rounndWind + " м/с" +
                                         "\nДавление " + roundPressure + " мм.рт.ст");
 
                                 updateBackground(weatherObj.getString("description"));
                             }
                         } else {
-                            forecast_infoDay.setVisibility(View.GONE);
-                            weatherIconDay.setVisibility(View.GONE);
+                            forecast_infoDay.setVisibility(View.INVISIBLE);
+                            weatherIconDay.setVisibility(View.INVISIBLE);
                         }
 
-                        // Обработка вечернего прогноза
                         if (forecastEve != null) {
                             JSONObject mainObj = forecastEve.getJSONObject("main");
+                            int feels_like = mainObj.getInt("feels_like");
                             JSONArray weatherArray = forecastEve.getJSONArray("weather");
                             JSONObject weatherObj = weatherArray.getJSONObject(0);
                             int temp = mainObj.getInt("temp");
@@ -275,14 +304,25 @@ public class SecondActivity extends AppCompatActivity {
                             weatherIconEve.setVisibility(View.VISIBLE);
                             forecast_infoEve.setText("Вечер\n" + temp + "℃");
                             weatherIconEve.setImageResource(getWeatherIconResource(weatherObj.getString("description")));
+
+                            JSONObject windObj = forecastEve.getJSONObject("wind");
+                            double windSpeed = windObj.getDouble("speed");
+                            int rounndWind = (int) Math.round(windSpeed);
+                            double pressure = mainObj.getInt("pressure") * 0.75;
+                            int roundPressure = (int) Math.round(pressure);
+
+                            forecast_feelsEve.setText(String.format("%d℃", feels_like));
+                            forecast_blowEve.setText(String.valueOf(rounndWind));
+                            forecast_pressEve.setText(String.valueOf(roundPressure));
+
                         } else {
-                            forecast_infoEve.setVisibility(View.GONE);
-                            weatherIconEve.setVisibility(View.GONE);
+                            forecast_infoEve.setVisibility(View.INVISIBLE);
+                            weatherIconEve.setVisibility(View.INVISIBLE);
                         }
 
-                        // Обработка ночного прогноза
                         if (forecastNig != null) {
                             JSONObject mainObj = forecastNig.getJSONObject("main");
+                            int feels_like = mainObj.getInt("feels_like");
                             JSONArray weatherArray = forecastNig.getJSONArray("weather");
                             JSONObject weatherObj = weatherArray.getJSONObject(0);
                             int temp = mainObj.getInt("temp");
@@ -290,9 +330,20 @@ public class SecondActivity extends AppCompatActivity {
                             weatherIconNig.setVisibility(View.VISIBLE);
                             forecast_infoNig.setText("Ночь\n" + temp + "℃");
                             weatherIconNig.setImageResource(getWeatherIconResource(weatherObj.getString("description")));
+
+                            JSONObject windObj = forecastNig.getJSONObject("wind");
+                            double windSpeed = windObj.getDouble("speed");
+                            int rounndWind = (int) Math.round(windSpeed);
+                            double pressure = mainObj.getInt("pressure") * 0.75;
+                            int roundPressure = (int) Math.round(pressure);
+
+                            forecast_feelsNig.setText(String.format("%d℃", feels_like));
+                            forecast_blowNig.setText(String.valueOf(rounndWind));
+                            forecast_pressNig.setText(String.valueOf(roundPressure));
+
                         } else {
-                            forecast_infoNig.setVisibility(View.GONE);
-                            weatherIconNig.setVisibility(View.GONE);
+                            forecast_infoNig.setVisibility(View.INVISIBLE);
+                            weatherIconNig.setVisibility(View.INVISIBLE);
                         }
 
                     } catch (JSONException e) {
@@ -347,3 +398,4 @@ public class SecondActivity extends AppCompatActivity {
         executorService.shutdown();
     }
 }
+
